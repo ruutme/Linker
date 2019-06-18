@@ -8,6 +8,7 @@
 
 #addin nuget:?package=Cake.Npm&version=0.17.0
 #addin nuget:?package=Cake.Curl&version=4.1.0
+//#addin nuget:?package=Cake.Coverlet&
 //#tool nuget:?package=Cake.Curl
 
 var target = Argument("Target", "Build");
@@ -201,6 +202,24 @@ Task("Publish-Test-Results")
         TeamCity.ImportData("vstest", testResult);
     }
 });
+
+Task("Publish-Code-Coverage-Results")
+    .WithCriteria(() => BuildSystem.IsRunningOnTeamCity)
+    .IsDependentOn("Test")
+    .Does(() =>
+{
+    TFBuild.Commands.PublishCodeCoverage(
+        new TFBuildPublishCodeCoverageData {
+            //TestRunner = TFTestRunnerType.VSTest,
+            //TestResultsFiles = GetFiles(Paths.TestResultDirectory + "/*.trx").ToList()
+        }
+    );
+    /* 
+    foreach(var testResult in GetFiles(Paths.TestResultDirectory + "/*.trx")){
+        TeamCity.ImportData("vstest", testResult);
+    }*/
+});
+
 Task("Build-CI")
     .IsDependentOn("Compile")
     .IsDependentOn("Test")
