@@ -1,3 +1,5 @@
+//#load paths.cake;
+
 public class PackageMetadata
 {
     public PackageMetadata(
