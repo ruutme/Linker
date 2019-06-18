@@ -41,7 +41,7 @@ Task("Version")
 {
   // What if we want to explicitly commit a tag, tag is signaling you are releasing
   // Manual way instead of GitVersion
-  package.Version = null; //ReadVersionFromProjectFile(Context);
+  package.Version = ReadVersionFromProjectFile(Context);
   if (package.Version == null)
   {
       Information ("Project version missing, falling back to GitVersion");
