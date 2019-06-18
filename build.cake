@@ -198,7 +198,7 @@ Task("Publish-Test-Results")
         }
     );
     foreach(var testResult in GetFiles(Paths.TestResultDirectory + "/*.trx")){
-        TeamCity.ImportData("vstest", testResult)
+        TeamCity.ImportData("vstest", testResult);
     }
 });
 Task("Build-CI")
